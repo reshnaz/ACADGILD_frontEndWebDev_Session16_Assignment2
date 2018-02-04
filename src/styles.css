@@ -1,1 +1,57 @@
-/* You can add global styles to this file, and also import other style files */
+/*Applying suitable background gradient to page*/
+body{
+	background: linear-gradient(to bottom right,rgb(130, 178, 180),rgb(153, 188, 189));
+	height: 100%;
+	margin: 0;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+}
+
+/* Formats text inside the navigation bar on top */
+.navbar-inverse .navbar-nav > li > a {
+    font-weight: bold;
+    font-size: medium;
+}
+
+/* Positioning the "Add a Person" form */
+#personForm{
+	width: 60%;
+	margin-left: 20%
+}
+
+/* Applying suitable color to submit button on "Add a Person" page */
+#btn-submit{
+    background-color: black;
+    border-color: black;
+}
+
+/* Applying suitable color **when hovered** to submit button on "Add a Person" page */
+#btn-submit:enabled:hover{
+    background-color: rgb(54, 54, 54);
+    border-color: rgb(54, 54, 54);
+}
+
+/* Styling the person search bar */
+#search{
+	width:25%; margin-left: 75%; font-size: 12px;
+}
+
+/* Applying padding to cells in table view for a neater look */
+th, td {
+	padding: 5px;
+}
+
+/* Here we use angular validation CSS classes */
+
+/* Field borders turn red when touched and invalid */
+input.ng-touched.ng-invalid, select.ng-touched.ng-invalid {
+    border-color:red;
+    border-width: 2px;
+}
+
+/* Field borders turn green when touched and invalid */
+input.ng-touched.ng-valid, select.ng-touched.ng-valid {
+    border-color:green;
+    border-width: 2px;
+}
+ 

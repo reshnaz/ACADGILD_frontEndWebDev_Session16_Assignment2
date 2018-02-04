@@ -1,0 +1,134 @@
+<!-- This HTML has content to add a person's details -->
+
+<div style="text-align:center">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Session-12, Assignment-4</h1>
+        <br>
+        <form [formGroup]="f" id="personForm" novalidate autocomplete="off" (ngSubmit)="addPerson(f.value)">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h2 style="text-align: center;text-decoration: underline;">Add a Person</h2>
+              <br>
+              <!-- Honorific -->
+              <div class="form-group" style="text-align:left">
+                <label for="honorific">Honorific</label>
+                <!-- Input field for honorific(Mr/Ms) imparting two-way data flow using ngModel -->
+                <select class="text-box" id="honorific" name="honorific" formControlName="honorific" class="form-control">
+                  <!-- Mr/Ms options are populated using dropdown service -->
+                  <option [value]="null" [disabled]="true">Select Honorific</option>
+                  <option *ngFor="let m of mrms" [ngValue]="m.honorific">
+                    <!-- Display "Mr." and "Ms." using string interpolation -->
+                    {{m.honorific}}
+                  </option>
+                </select>
+                <!-- Below div is displayed if the honorific is not filled -->
+                <div *ngIf="f.controls['honorific'].errors && (f.controls['honorific'].dirty || f.controls['honorific'].touched)" class="alert alert-danger">
+                  <div *ngIf="f.controls['honorific'].hasError('required')">
+                    Title/Honorific is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- First Name -->
+              <div class="form-group" style="text-align:left">
+                <label for="firstName">First Name</label>
+                <!-- Input field for first name imparting two-way data flow using ngModel -->
+                <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name" formControlName="firstName">
+                <div *ngIf="f.controls['firstName'].errors && (f.controls['firstName'].dirty || f.controls['firstName'].touched)" class="alert alert-danger">
+                  <!-- Below div is displayed if the first name is not filled -->
+                  <div *ngIf="f.controls['firstName'].hasError('required')">
+                    First Name is required.
+                  </div>
+                  <!-- Below div is displayed if input characters are other than alphabets -->
+                  <div *ngIf="f.controls['firstName'].hasError('pattern')">
+                    Please enter only alphabets.
+                  </div>
+                  <!-- Below div is displayed if input exceeds minimum character length -->
+                  <div *ngIf="f.controls['firstName'].hasError('minlength')">
+                    Please enter atleast 2 characeters.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="form-group" style="text-align:left">
+                <label for="lastName">Last Name</label>
+                <!-- Input field for last name imparting two-way data flow using ngModel -->
+                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name" formControlName="lastName">
+                <div *ngIf="f.controls['lastName'].errors && (f.controls['lastName'].dirty || f.controls['lastName'].touched)" class="alert alert-danger">
+                  <!-- Below div is displayed if the last name is not filled -->
+                  <div *ngIf="f.controls['lastName'].hasError('required')">
+                    Last Name is required.
+                  </div>
+                  <!-- Below div is displayed if input characters are other than alphabets -->
+                  <div *ngIf="f.controls['lastName'].hasError('pattern')">
+                    Please enter only alphabets.
+                  </div>
+                  <!-- Below div is displayed if input exceeds minimum character length -->
+                  <div *ngIf="f.controls['lastName'].hasError('minlength')">
+                    Please enter atleast 2 characeters.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Age -->
+              <div class="form-group" style="text-align:left">
+                <label for="age">Age</label>
+                <!-- Input field for age imparting two-way data flow using ngModel -->
+                <input type="number" id="age" name="age" class="form-control" placeholder="Age" formControlName="age">
+                <!-- Below div is displayed if the age is not filled -->
+                <div *ngIf="f.controls['age'].errors && (f.controls['age'].dirty || f.controls['age'].touched)" class="alert alert-danger">
+                  <div *ngIf="f.controls['age'].hasError('required')">
+                    Age is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Date of Registration -->
+              <div class="form-group" style="text-align:left">
+                <label for="dor">Date of Registration</label>
+                <!-- Input field for age imparting two-way data flow using ngModel -->
+                <input type="date" id="dor" name="dor" class="form-control" placeholder="Registration Date" formControlName="dor">
+                <!-- Below div is displayed if Date of Registration is not filled -->
+                <div *ngIf="f.controls['dor'].errors && (f.controls['dor'].dirty || f.controls['dor'].touched)" class="alert alert-danger">
+                  <div *ngIf="f.controls['dor'].hasError('required')">
+                    Date of Registration is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Person ID -->
+              <div class="form-group" style="text-align:left">
+                <label for="personId">Person ID</label>
+                <!-- Input field for age imparting two-way data flow using ngModel -->
+                <input type="text" id="personId" name="personId" class="form-control" placeholder="Person ID" formControlName="personId">
+                <div *ngIf="f.controls['personId'].errors && (f.controls['personId'].dirty || f.controls['personId'].touched)" class="alert alert-danger">
+                  <!-- Below div is displayed if the person id is not filled -->
+                  <div *ngIf="f.controls['personId'].hasError('required')">
+                    Person ID is required.
+                  </div>
+                  <!-- Below div is displayed if input other than number and more than 3 digits are entered -->
+                  <div *ngIf="f.get('personId').errors.validId">
+                    Only 3 digits allowed.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Button that calls service functions and ultimately shows data input in table -->
+              <!-- This button is enabled only after all fields are filled and valid -->
+              <input type="submit" id="btn-submit" class="btn btn-primary btn-block" value="Add to Table" [disabled]="f.invalid">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Conditional display of table based on length of input array -->
+<!-- <div *ngIf="personArr.length > 0"> -->
+<!-- Display table that is part of child component -->
+<!-- <app-person [personDetail]="personArr"></app-person> -->
+<!-- </div> -->
