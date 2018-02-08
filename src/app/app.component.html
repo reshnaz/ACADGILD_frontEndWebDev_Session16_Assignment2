@@ -5,12 +5,12 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li>
-          <a routerLink="/" routerLinkActive="active">Add a Person
+          <a routerLink="/addPerson" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Add a Person
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li>
-          <a routerLink="/personList" routerLinkActive="active">Person List</a>
+          <a routerLink="/personList" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Person List</a>
         </li>
       </ul>
     </div>

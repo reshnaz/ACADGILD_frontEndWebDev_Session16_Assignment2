@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, transition } from '@angular/core';
 import { PersonModel, PersonList } from './../interface/person-model';
 import { Mrms } from './../interface/mrms';
 import { PersonService } from './../service/person.service';
-import { PersonDropdownService } from './../service/person-dropdown.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ThreeDigits } from './../validator/validator';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-add-person',
@@ -15,38 +13,43 @@ import { Router } from "@angular/router";
 export class AddPersonComponent implements OnInit {
 
   /* Necessary variable declarations which will be used in html */
+  personModel: PersonList;
   personList: PersonList;
   mrms: Mrms[] = [];
-
-  // Declaring 'f' of Type FormGroup
-  f: FormGroup;
+  checker: boolean = false;
 
   // Using constructor, call the PersonService and PersonDropdownService.
-  constructor(private _personService: PersonService, private _dropDownService: PersonDropdownService, private _fbuilder: FormBuilder, private _router: Router) { }
+  constructor(private _route: ActivatedRoute, private _personService: PersonService, private _router: Router) { }
 
   ngOnInit() {
 
-    /* Using FormBuilder and initializing the form controls within it
-     along with validators */
-
-    /* All fields mandatory, text-input fields accept only alphabets and minimum length of 2 chars */
-    /* The field called personId introduced here will accept only 3-digit numbers*/
-    this.f = this._fbuilder.group({
-      'honorific': ['', Validators.compose([Validators.required])],
-      'firstName': ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z]*$'), Validators.minLength(2)])],
-      'lastName': ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z]*$'), Validators.minLength(2)])],
-      'age': ['', Validators.compose([Validators.required])],
-      'dor': ['', Validators.compose([Validators.required])], // Date field here will use pipe concept for its format
-      'personId': ['', [Validators.required, ThreeDigits]],
+    this.initPersonModel();
+    // Fetching dropdown values for honorific using resolve guard
+    this._route.data.forEach((data: any) => {
+      this.mrms = data.mrms;
     });
-    // Fetching dropdown values for honorific using service
-    this.mrms = this._dropDownService.getHonorific();
 
+  }
+
+  initPersonModel() {
+    /**Define default values */
+    return this.personModel = {
+      honorific: '',
+      firstName: '',
+      lastName: '',
+      age: null,
+      dor: null,
+      personId: null
+    };
   }
 
   // This function is called from html which in turn calls the functions in our Person service.
   addPerson(vals) {
 
+    /* This boolean controls the canDeactivate() if...else condition.
+    If true, it means that the "Add to Table" button is clicked 
+    and we don't want the confirmation dialog */
+    this.checker = true;
     // Assign input values to interface variables.
     this.personList = {
       honorific: vals.honorific,
@@ -62,6 +65,23 @@ export class AddPersonComponent implements OnInit {
 
     // Redirecting page to personList
     this._router.navigate(['/personList']);
+  }
+
+  /* Below function checks if there are any values filled in the form.
+      If yes, and the user tries to navigate away from page without saving data,
+      there is a confirmation asked from user. */
+  canDeactivate() {
+    if ((this.personModel.honorific == '' &&
+      this.personModel.firstName == '' &&
+      this.personModel.lastName == '' &&
+      this.personModel.age == null &&
+      this.personModel.dor == null &&
+      this.personModel.personId == null) || this.checker == true) {
+      return true;
+    }
+    else {
+      return window.confirm(`Are you sure you don’t want to save the data?`);
+    }
   }
 
 }
