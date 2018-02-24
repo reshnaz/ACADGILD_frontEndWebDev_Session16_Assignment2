@@ -1,39 +1,48 @@
-import { Component, OnInit, transition } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PersonModel, PersonList } from './../interface/person-model';
 import { Mrms } from './../interface/mrms';
-import { PersonService } from './../service/person.service';
-import { ThreeDigits } from './../validator/validator';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
+import { CallUrlService } from './../service/call-url.service';
+import { Observable } from "rxjs/Observable";
+import { PostService } from "./../service/post.service";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add-person',
   templateUrl: './add-person.component.html',
-  styleUrls: ['./add-person.component.css']
+  styleUrls: ['./add-person.component.css'],
+  providers: [CallUrlService, PostService]
 })
 export class AddPersonComponent implements OnInit {
 
   /* Necessary variable declarations which will be used in html */
   personModel: PersonList;
-  personList: PersonList;
-  mrms: Mrms[] = [];
+  persons: PersonList[] = [];
+  mrms: Observable<Mrms[]>;
   checker: boolean = false;
-
-  // Using constructor, call the PersonService and PersonDropdownService.
-  constructor(private _route: ActivatedRoute, private _personService: PersonService, private _router: Router) { }
+  index: number = 0;
+  // Using constructor, call the PostService & CallUrlService that uses HTTPClient methods.
+  constructor(private postService: PostService, private urlService: CallUrlService, private _router: Router) { }
 
   ngOnInit() {
 
     this.initPersonModel();
-    // Fetching dropdown values for honorific using resolve guard
-    this._route.data.forEach((data: any) => {
-      this.mrms = data.mrms;
-    });
+    this.getPersons();
+    // Fetching dropdown values for honorific using URL service that uses HTTPCLient GET.
+    this.mrms = this.urlService.retURL();
 
+  }
+
+  // On initialization of component, we retrieve the persons list,
+  getPersons(): void {
+    this.postService.getPersons()
+      .subscribe(persons => this.persons = persons);
   }
 
   initPersonModel() {
     /**Define default values */
     return this.personModel = {
+      id: null,
       honorific: '',
       firstName: '',
       lastName: '',
@@ -43,27 +52,30 @@ export class AddPersonComponent implements OnInit {
     };
   }
 
-  // This function is called from html which in turn calls the functions in our Person service.
   addPerson(vals) {
-
     /* This boolean controls the canDeactivate() if...else condition.
-    If true, it means that the "Add to Table" button is clicked 
-    and we don't want the confirmation dialog */
+      If true, it means that the "Add to Table" button is clicked 
+      and we don't want the confirmation dialog */
     this.checker = true;
+    // Helps in calculating id property for the new person added.
+    if (this.persons.length !== 0 || null || undefined) {
+      this.index = this.persons[this.persons.length - 1].id;
+    }
+
     // Assign input values to interface variables.
-    this.personList = {
+    const newPerson = {
+      id: this.index + 1,
       honorific: vals.honorific,
       firstName: vals.firstName,
       lastName: vals.lastName,
       age: vals.age,
       dor: vals.dor,
       personId: vals.personId
-    }
+    } as PersonList;
 
-    // Service function called to add person details to array
-    this._personService.addPerson(this.personList);
-
-    // Redirecting page to personList
+    // Push newly added person to existing list.
+    this.postService.addPerson(newPerson)
+      .subscribe(person => this.persons.push(person));
     this._router.navigate(['/personList']);
   }
 

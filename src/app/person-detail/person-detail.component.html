@@ -10,25 +10,28 @@
             <hr/>
             <!-- Below we display the route parameter using interpolation -->
             <h2 style="text-align:center; text-decoration:underline;">Person Detail-{{id}}</h2>
-            <br><br>
+            <br>
+            <br>
             <!-- Table displays selected individual person's details -->
+            <!-- async pipe is used to display observable data asynchronously  -->
             <table class="table">
               <tbody>
                 <tr>
                   <th>Full Name:</th>
-                  <td>{{person?.honorific}}{{person?.firstName | capitalizeFirst}} {{person?.lastName | capitalizeFirst}}</td>
+                  <td>{{(person|async)?.honorific}}{{(person|async)?.firstName | capitalizeFirst}} {{(person|async)?.lastName
+                    | capitalizeFirst}}</td>
                 </tr>
                 <tr>
                   <th>ID:</th>
-                  <td>{{person?.personId}}</td>
+                  <td>{{(person|async)?.personId}}</td>
                 </tr>
                 <tr>
                   <th>Age:</th>
-                  <td>{{person?.age}}</td>
+                  <td>{{(person|async)?.age}}</td>
                 </tr>
                 <tr>
                   <th>Date of Registration:</th>
-                  <td>{{person?.dor | date:'d/M/y'}}</td>
+                  <td>{{(person|async)?.dor | date:'d/M/y'}}</td>
                 </tr>
               </tbody>
             </table>

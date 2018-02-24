@@ -24,14 +24,15 @@
             <h2 style="text-align:center; text-decoration:underline;">Person List</h2>
             <br>
             <!-- Below div is displayed if there are no Person entries -->
-            <div [ngStyle]="{'text-align': 'center','color': 'red'}" *ngIf="(personList.length <= 0); else personsAvailable">
+            <!-- async pipe is used to display observable data asynchronously  -->
+            <div [ngStyle]="{'text-align': 'center','color': 'red'}" *ngIf="(personList | async)?.length==0; else personsAvailable">
               <h3>No Person Data Available</h3>
             </div>
 
             <!-- Below template is displayed if Person entries are available -->
             <ng-template #personsAvailable>
               <!-- If there are Person entries, then a table with that data is shown below -->
-              <div *ngIf="personList.length > 0" class="table-resposive">
+              <div class="table-resposive">
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -45,12 +46,13 @@
                   <tbody>
                     <!-- Loop through input array -->
                     <!-- Search array of entered data using custom search pipe -->
-                    <tr *ngFor="let person of (personList | search:searchString); let i = index">
+                    <!-- async pipe is used to display observable data asynchronously  -->
+                    <tr *ngFor="let person of (personList | async | search:searchString); let i = index">
                       <td>
                         <!-- Displaying serial number string interpolation -->
-                        {{i + 1}}
+                        {{i+1}}
                       </td>
-                      <td [routerLink]="['/personDetail', i + 1]">
+                      <td [routerLink]="['/personDetail', person?.id]">
                         <a style="cursor: pointer;">
                           <h5>
                             <!-- Displaying Person Name  and age from array using string interpolation -->
@@ -78,6 +80,10 @@
                           <!-- We have used the date pipe to format this date as required, i.e. '9/3/2010' format -->
                           {{person?.dor | date:'d/M/y'}}
                         </h5>
+                      </td>
+                      <td>
+                        <!-- Button to delete this person -->
+                        <button title="Delete person" (click)="deletePerson(person)">Remove</button>
                       </td>
                     </tr>
                   </tbody>

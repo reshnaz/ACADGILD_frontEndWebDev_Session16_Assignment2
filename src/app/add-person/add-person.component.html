@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <h1>Session-13, Assignment-4</h1>
+        <h1>Session-14, Assignment-4</h1>
         <br>
         <form #f="ngForm" id="personForm" novalidate autocomplete="off" (ngSubmit)="addPerson(f.value)">
           <div class="panel panel-default">
@@ -17,9 +17,9 @@
                 <!-- Input field for honorific(Mr/Ms) imparting two-way data flow using ngModel -->
                 <select class="text-box" id="honorific" name="honorific" [(ngModel)]="personModel.honorific" class="form-control" required
                   #refHonorific='ngModel'>
-                  <!-- Mr/Ms options are populated using dropdown service -->
+                  <!-- Mr/Ms options are populated using through a service using HTTPClient GET -->
                   <option [value]="null" [disabled]="true">Select Honorific</option>
-                  <option *ngFor="let m of mrms" [ngValue]="m.honorific">
+                  <option *ngFor="let m of mrms|async" [ngValue]="m.honorific">
                     <!-- Display "Mr." and "Ms." using string interpolation -->
                     {{m.honorific}}
                   </option>
@@ -36,22 +36,22 @@
               <div class="form-group" style="text-align:left">
                 <label for="firstName">First Name</label>
                 <!-- Input field for first name imparting two-way data flow using ngModel -->
-                <input type="text" id="firstName" name="firstName" [(ngModel)]="personModel.firstName" class="form-control" placeholder="First Name">
-                  <!-- required #refFirst='ngModel' maxlength="15" minlength="2" pattern="^[a-zA-Z]*$"> -->
-                <!-- <div *ngIf="refFirst.errors && (refFirst.dirty || refFirst.touched)" class="alert alert-danger"> -->
+                <input type="text" id="firstName" name="firstName" [(ngModel)]="personModel.firstName" class="form-control" placeholder="First Name"
+                  required #refFirst='ngModel' maxlength="15" minlength="2" pattern="^[a-zA-Z]*$">
+                <div *ngIf="refFirst.errors && (refFirst.dirty || refFirst.touched)" class="alert alert-danger">
                   <!-- Below div is displayed if the first name is not filled -->
-                  <!-- <div *ngIf="refFirst.errors.required">
+                  <div *ngIf="refFirst.errors.required">
                     First Name is required.
-                  </div> -->
+                  </div>
                   <!-- Below div is displayed if input characters are other than alphabets -->
-                  <!-- <div *ngIf="refFirst.errors.pattern">
+                  <div *ngIf="refFirst.errors.pattern">
                     Please enter only alphabets.
-                  </div> -->
+                  </div>
                   <!-- Below div is displayed if input exceeds minimum character length -->
-                  <!-- <div *ngIf="refFirst.errors.minlength">
+                  <div *ngIf="refFirst.errors.minlength">
                     Please enter atleast 2 characeters.
                   </div>
-                </div> -->
+                </div>
               </div>
 
               <!-- Last Name -->

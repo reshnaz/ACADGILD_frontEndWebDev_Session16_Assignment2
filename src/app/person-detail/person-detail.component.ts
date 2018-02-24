@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
-import { PersonService } from './../service/person.service';
+import * as _ from 'lodash';
+import { PostService } from './../service/post.service';
 import { PersonList } from './../interface/person-model';
 
 @Component({
@@ -13,16 +15,16 @@ import { PersonList } from './../interface/person-model';
 export class PersonDetailComponent implements OnInit {
 
   // Declarations necessary to produce required person details
-  person: PersonList;
+  person: Observable<PersonList>;
   private id: string;
 
   // Instance of ActivatedRoute service is used to extract route parameter from URL
-  constructor(private _route: ActivatedRoute, private _service: PersonService) { }
+  constructor(private _route: ActivatedRoute, private _service: PostService) { }
 
   // We get the route parameter and fetch details of corresponding person.
   ngOnInit() {
     this.id = this._route.snapshot.paramMap.get('id');
-    this.person = this._service.getPersonWithId(this.id);
+    this.person = this._service.getPersonWithId(+this.id);
   }
 
 }

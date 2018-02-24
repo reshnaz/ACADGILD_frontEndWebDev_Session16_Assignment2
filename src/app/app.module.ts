@@ -16,6 +16,12 @@ import { PersonService } from './service/person.service';
 import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { LoginComponent } from './login/login.component';
 import { ResolveGuard } from './routes/resolve-guard';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.service';
+import { HttpErrorHandler } from './service/http-error-handler.service';
+import { MessageService } from './service/message.service';
+import { PostService } from "./service/post.service";
 
 
 @NgModule({
@@ -30,9 +36,11 @@ import { ResolveGuard } from './routes/resolve-guard';
     LoginComponent
   ],
   imports: [
-    BrowserModule, FormsModule, ReactiveFormsModule, personRouting
+    BrowserModule, FormsModule, ReactiveFormsModule, personRouting, HttpClientModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false, passThruUnknownUrl: true })
   ],
-  providers: [PersonService, PersonDropdownService, Guard, DeactivateGuard, ResolveGuard],
+  providers: [PersonService, PersonDropdownService, Guard, DeactivateGuard, ResolveGuard,
+    HttpErrorHandler, MessageService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
