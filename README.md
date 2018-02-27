@@ -1,4 +1,4 @@
-# S14A4
+# S15A4
 
 Note: All output related files are under "src/app" folder.
 
@@ -48,6 +48,26 @@ data.
 24. Create a HTTP GET service to get the POST values from the database use
 async pipe to show the response in the View.
 25. Create an Error Handling for all the above service.
+26. Import animation module and configure the animation in @Compnent ({}).
+27. Define trigger function and 1 state inside the trigger function for active in
+style add background color =”#cfd8dc”
+28. Define the animation in HTML by property binding.
+29. Create the 2 nd state in trigger function for inactive and in style add
+background color: “#fff”
+30. Create mouseover and mouseleave function and on event of both the
+functions are executes, the background color should change accordingly
+31. Add transform to scale(1) for inactive and scale(1.1) for active.
+32. Add transition for active and inactive and animate for (500) both.
+33. Create another trigger for making animations for the data when it gets
+displayed and created. Define the trigger in HTML.
+34. In the trigger, define state and name it as “in,” give it a style for transform
+to translateX to 0. And in HTML, give the default value to the animation as
+“in”. 
+35. Add transition for enter and in style, add transform to translate from the Y axis. Add animate for 500.
+36. Create an animate call-back function and it should show the values in
+console.
+37. Use keyframes to do multi-step animations for the enter event and keep the
+animate time for 400.
 
 ## Development server
 

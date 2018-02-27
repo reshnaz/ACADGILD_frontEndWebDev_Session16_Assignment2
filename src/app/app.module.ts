@@ -22,7 +22,7 @@ import { InMemoryDataService } from './in-memory-data.service';
 import { HttpErrorHandler } from './service/http-error-handler.service';
 import { MessageService } from './service/message.service';
 import { PostService } from "./service/post.service";
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { PostService } from "./service/post.service";
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, personRouting, HttpClientModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false, passThruUnknownUrl: true })
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false, passThruUnknownUrl: true }),
+    BrowserAnimationsModule
   ],
   providers: [PersonService, PersonDropdownService, Guard, DeactivateGuard, ResolveGuard,
     HttpErrorHandler, MessageService, PostService],

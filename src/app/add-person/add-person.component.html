@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <h1>Session-14, Assignment-4</h1>
+        <h1>Session-15, Assignment-4</h1>
         <br>
         <form #f="ngForm" id="personForm" novalidate autocomplete="off" (ngSubmit)="addPerson(f.value)">
           <div class="panel panel-default">
@@ -122,8 +122,10 @@
               </div>
 
               <!-- Button that calls service functions and ultimately shows data input in table -->
+              <!-- Button is animated on mouse enter & leave -->
               <!-- This button is enabled only after all fields are filled and valid -->
-              <input type="submit" id="btn-submit" class="btn btn-primary btn-block" value="Add to Table" [disabled]="f.invalid">
+              <input type="submit" id="btn-submit" [@personState]="stateExpression" (mouseenter)="mouseEnter()" (mouseleave)="mouseLeave()"
+                class="btn btn-primary btn-block" value="Add to Table" [disabled]="f.invalid">
             </div>
           </div>
         </form>

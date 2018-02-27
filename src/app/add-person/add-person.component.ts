@@ -6,21 +6,40 @@ import { CallUrlService } from './../service/call-url.service';
 import { Observable } from "rxjs/Observable";
 import { PostService } from "./../service/post.service";
 import { NgForm } from '@angular/forms';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-add-person',
   templateUrl: './add-person.component.html',
   styleUrls: ['./add-person.component.css'],
-  providers: [CallUrlService, PostService]
+  providers: [CallUrlService, PostService],
+  /* Animations that are triggered when mouse enters and leaves the submit button in HTML
+     Background color changes and scales up its content when mouse enters. */
+  animations: [
+    trigger('personState', [
+      state('active', style({
+        backgroundColor: '#cfd8dc',
+        transform: 'scale(1.1)'
+      })),
+      state('inactive', style({
+        backgroundColor: '#fff',
+        transform: 'scale(1)'
+      })),
+      transition('inactive => active', animate('500ms ease-in')),
+      transition('active => inactive', animate('500ms ease-out'))
+    ])
+  ]
 })
 export class AddPersonComponent implements OnInit {
 
-  /* Necessary variable declarations which will be used in html */
+  /* Necessary variable declarations which will be used in html/rest of code */
   personModel: PersonList;
   persons: PersonList[] = [];
   mrms: Observable<Mrms[]>;
   checker: boolean = false;
   index: number = 0;
+  stateExpression: string;
+
   // Using constructor, call the PostService & CallUrlService that uses HTTPClient methods.
   constructor(private postService: PostService, private urlService: CallUrlService, private _router: Router) { }
 
@@ -96,4 +115,11 @@ export class AddPersonComponent implements OnInit {
     }
   }
 
+  /* The four functions below  are used to help code identify what state 
+  animation needs to be applied to submit button on mouse entering and leaving */
+  mouseEnter() { this.activeState(); };
+  mouseLeave() { this.inactiveState(); };
+
+  inactiveState() { this.stateExpression = 'inactive'; }
+  activeState() { this.stateExpression = 'active'; }
 }

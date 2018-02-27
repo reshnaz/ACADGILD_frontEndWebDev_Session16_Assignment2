@@ -29,15 +29,19 @@ body{
 
 /* Applying suitable color to submit button on "Add a Person" page */
 #btn-submit{
-    background-color: black;
+    background-color: #fff;
     border-color: black;
+    color: black;
+    border-width: 2px;
+    width: 25vh;
+    margin-left: 35%;
 }
 
 /* Applying suitable color **when hovered** to submit button on "Add a Person" page */
-#btn-submit:enabled:hover{
+/* #btn-submit:enabled:hover{
     background-color: rgb(54, 54, 54);
     border-color: rgb(54, 54, 54);
-}
+} */
 
 /* Styling the person search bar */
 #search{

@@ -4,6 +4,7 @@ import { PostService } from "./../service/post.service";
 import { Observable } from 'rxjs/Observable';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
 // This header will be passed along with URL
 const httpOptions = {
@@ -15,7 +16,23 @@ const httpOptions = {
 @Component({
   selector: 'app-person',
   templateUrl: './person.component.html',
-  styleUrls: ['./person.component.css']
+  styleUrls: ['./person.component.css'],
+  /* Animations that are triggered when person data is added 
+     and it the same is displayed in the table. The table row glides in from top. 
+     Each transition is defined in terms of multiple keyframes, to give it
+     a bounce effect.*/
+  animations: [
+    trigger('displayPerson', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition(':enter', [
+        animate(400, keyframes([
+          style({ opacity: 0, transform: 'translateY(-100%)', offset: 0 }),
+          style({ opacity: 1, transform: 'translateY(15px)', offset: 0.3 }),
+          style({ opacity: 1, transform: 'translateY(0)', offset: 1.0 })
+        ]))
+      ]),
+    ])
+  ]
 })
 
 export class PersonComponent implements OnInit {
@@ -45,4 +62,14 @@ export class PersonComponent implements OnInit {
     this._postService.deletePerson(person.id).subscribe();
     this.fetchDetails();
   }
+
+  // Animation Callback functions that display message in console when animation starts and ends.
+  animationStarted(event: AnimationEvent) {
+    console.warn('Animation started: ', event);
+  }
+
+  animationDone(event: AnimationEvent) {
+    console.warn('Animation done: ', event);
+  }
+
 }

@@ -44,10 +44,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Loop through input array -->
+                    <!-- Loop through input array display using animations -->
+                    <!-- Animation callbacks are used here to notify when animation starts & ends -->
                     <!-- Search array of entered data using custom search pipe -->
                     <!-- async pipe is used to display observable data asynchronously  -->
-                    <tr *ngFor="let person of (personList | async | search:searchString); let i = index">
+                    <tr *ngFor="let person of (personList | async | search:searchString); let i = index" (@displayPerson.start)="animationStarted($event)"
+                      (@displayPerson.done)="animationDone($event)" [@displayPerson]="'in'">
                       <td>
                         <!-- Displaying serial number string interpolation -->
                         {{i+1}}
