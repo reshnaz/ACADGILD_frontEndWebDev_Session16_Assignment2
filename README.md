@@ -1,4 +1,4 @@
-# S15A4
+# S16A2
 
 Note: All output related files are under "src/app" folder.
 
@@ -68,6 +68,11 @@ to translateX to 0. And in HTML, give the default value to the animation as
 console.
 37. Use keyframes to do multi-step animations for the enter event and keep the
 animate time for 400.
+38. Create a spec file for the service
+39. In the spec file declare the describe function and create a function beforeEach to call before spec is describe.
+40. Create a “it () “function and it should compileComponents. It should also
+test for the response which you are getting it from service
+41. You should use matchers like “toBeDefined() , toEqual(), not.toBe()”.
 
 ## Development server
 

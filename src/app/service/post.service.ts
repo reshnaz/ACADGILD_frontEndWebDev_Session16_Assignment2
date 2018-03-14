@@ -15,7 +15,7 @@ const httpOptions = {
 };
 
 @Injectable()
-export class PostService {
+export class PostService { 
 
   personsUrl = 'api/persons';  // URL to web api
   private handleError: HandleError; // Error handler

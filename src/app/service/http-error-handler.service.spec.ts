@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { MessageService } from './../service/message.service';
+import { HttpErrorHandler } from './http-error-handler.service';
 
-import { HttpErrorHandlerService } from './http-error-handler.service';
-
-describe('HttpErrorHandlerService', () => {
+describe('HttpErrorHandler', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HttpErrorHandlerService]
+      providers: [HttpErrorHandler, MessageService]
     });
   });
 
-  it('should be created', inject([HttpErrorHandlerService], (service: HttpErrorHandlerService) => {
+  it('should be created', inject([HttpErrorHandler], (service: HttpErrorHandler) => {
     expect(service).toBeTruthy();
   }));
 });
